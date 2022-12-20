@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 8080;
 app.use(cors());
 app.use(routes);
 
-mongoose.set("strictQuery", false);
 mongoose
   .connect(uri)
   .then(() => {
