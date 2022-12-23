@@ -1,28 +1,26 @@
 import UserModel from "../models/model.js";
 
 export const addUser = async (req, res) => {
-  const bodyUser = req.body;
-  if (!bodyUser.nama || !bodyUser.tanggal_lahir || !bodyUser.email) {
+  const { nama, tanggal_lahir, email } = req.body;
+  console.log("this is name : " + nama);
+  if (!nama || !tanggal_lahir || !email) {
     res.status(401).json({
       status: 401,
-      errorMessage: `Validation Error : nama: ${bodyUser.nama}, tanggal_lahir: ${bodyUser.tanggal_lahir}, email: ${bodyUser.email}`,
+      errorMessage: `Validation Error : nama: ${nama}, tanggal_lahir: ${tanggal_lahir}, email: ${email}`,
     });
     return;
   }
   const newUserModel = new UserModel({
-    nama: bodyUser.nama,
-    tanggal_lahir: bodyUser.tanggal_lahir,
-    email: bodyUser.email,
+    nama: nama,
+    tanggal_lahir: tanggal_lahir,
+    email: email,
   });
   const newUser = await newUserModel.save();
-  const updatedUserAfterSave = await UserModel.find();
+  // const updatedUserAfterSave = await UserModel.find();
 
-  res.status(201).json({
+  res.status(201).json({  
     message: "User succesfully added!",
     addedTodo: newUser,
-    updatedUserAfterSave: updatedUserAfterSave,
+    // allTodosAfterAddition: updatedAllTodosAfterSave
   });
-  response.code(400);
-
-  return response;
 };
