@@ -16,7 +16,7 @@ export const loginUser = async (req, res) => {
       .json({ message: "Authentication failed. Invalid user or password." });
   }
   const verifiedToken = jwt.sign({ userLogin }, Token, { expiresIn: "1h" });
-  res.setHeader("token", verifiedToken);
+  res.setHeader("x-access-token", verifiedToken);
   bcrypt.compare(password, userLogin.password).then(() => {
     res.status(200).json({
       status: 200,

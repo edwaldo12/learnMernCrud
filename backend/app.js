@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express from "express";
+import express, { json } from "express";
 import cors from "cors";
 import routes from "./src/routes/routes.js";
 import mongoose from "mongoose";
@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cors());
 app.use(routes);
+app.use(json());
 
 mongoose.set("strictQuery", true);
 mongoose

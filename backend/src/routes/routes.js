@@ -1,16 +1,22 @@
-import { Router, json } from "express";
-import { addUser, deleteUser, getUser, getUsers, updateUser } from "../controllers/controllers.js";
+import Router from "express";
+import {
+  addUser,
+  deleteUser,
+  getUser,
+  getUsers,
+  loginUser,
+  updateUser,
+} from "../controllers/controllers.js";
 
 const router = Router({
   caseSensitive: true,
 });
 
-const jsonParser = json();
-
-router.post("/api/add-user", jsonParser, addUser);
+router.post("/api/add-user", addUser);
 router.get("/api/get-users", getUsers);
-router.get("/api/get-user/:id", jsonParser, getUser);
-router.put("/api/update-user/:id", jsonParser, updateUser);
-router.delete("/api/delete-user/:id", jsonParser, deleteUser);
+router.get("/api/get-user/:id", getUser);
+router.put("/api/update-user/:id", updateUser);
+router.delete("/api/delete-user/:id", deleteUser);
+router.get("/api/login-user", loginUser);
 
 export default router;
