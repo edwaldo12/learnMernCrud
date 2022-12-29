@@ -4,6 +4,7 @@ import cors from "cors";
 import routes from "./src/routes/routes.js";
 import mongoose from "mongoose";
 import uri from "./src/config/connection.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(routes);
 app.use(json());
+app.use(cookieParser);
 
 mongoose.set("strictQuery", true);
 mongoose
