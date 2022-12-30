@@ -1,4 +1,5 @@
 import UserModel from "../models/model.js";
+import refreshToken from "../models/refresh_token.js";
 import bcrypt from "bcrypt";
 
 export const addUser = async (req, res) => {
@@ -143,4 +144,28 @@ export const deleteUser = async (req, res) => {
       status: 400,
     });
   }
+};
+
+export const refreshedToken = async (req, res) => {
+  let userId = req.body._id;
+  let cookieUser = req.headers["set-cookie"];
+  let getRefreshToken = cookieUser[0].split(";")[0].split("=")[1];
+
+  const user = await UserModel.findById(userId);
+  if (!user) {
+    return res.status(404).json({
+      Message: "user not found!",
+    });
+  }
+
+  const newRefreshToken = new refreshToken({
+    token: getRefreshToken,
+    user: user,
+  });
+
+  const newToken = await newRefreshToken.save();
+  return res.status(200).json({
+    status: "Success",
+    data: newToken,
+  });
 };
