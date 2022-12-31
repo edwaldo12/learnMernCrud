@@ -1,13 +1,16 @@
-import { Router, json } from "express";
-import { loginUser } from "../controllers/controllers.js";
+import Router from "express";
+import loginGateway from "../controllers/auth.js";
+import verifyToken from "../middleware/index.js";
+import getUsers from "../controllers/user.js";
 
 const router = Router({
   caseSensitive: true,
 });
 
-const jsonParser = json();
+// router.post("/api/login-user", jsonParser, loginUser);
 
-router.get("/users",)
-router.post("/api/login-user", jsonParser, loginUser);
+router.post("/login", loginGateway);
+router.get("/users", verifyToken, getUsers);
+// router.post("/users", verifyToken, loginGateway)
 
 export default router;

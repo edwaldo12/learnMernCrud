@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { keyJWT } from "../config/auth.js";
 
-export const verifyToken = async (req, res, next) => {
+export default async function verifyToken(req, res, next){
   let tokenUser = req.headers["x-access-token"];
   // let cookieUser = req.headers["set-cookie"];
   // let getRefreshToken = cookieUser[0].split(";")[0].split("=")[1];

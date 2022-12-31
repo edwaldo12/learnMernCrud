@@ -1,2 +1,2 @@
-export const userService = "http://localhost:8080";
-export const authService = "http://localhost:3000";
+export const userServiceUrl = "http://localhost:8080";
+export const authServiceUrl = "http://localhost:3000";

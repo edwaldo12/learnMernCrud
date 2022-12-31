@@ -1,6 +1,7 @@
 "use strict";
 
 import UserModel from "../models/model.js";
+import refreshToken from "../models/refresh_token.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { keyJWT, keyRefresh } from "../config/auth.js";
@@ -15,7 +16,7 @@ export const loginUser = async (req, res) => {
       .status(401)
       .json({ message: "Authentication failed. Invalid user or password." });
   }
-  const verifiedToken = jwt.sign({ userLogin }, keyJWT, { expiresIn: "10s" });
+  const verifiedToken = jwt.sign({ userLogin }, keyJWT, { expiresIn: "1h" });
   res.setHeader("x-access-token", verifiedToken);
 
   const refreshToken = jwt.sign({ userLogin }, keyRefresh, {
@@ -30,8 +31,35 @@ export const loginUser = async (req, res) => {
     });
     res.status(200).json({
       status: 200,
-      Message: `Welcome ${username} you are succed to login!`,
+      userLogin: userLogin,
     });
   });
   return;
+};
+
+export const refreshedToken = async (req, res) => {
+  try {
+    let userId = req.body._id;
+    let tokenUser = req.headers["set-cookie"];
+
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        Message: "user not found!",
+      });
+    }
+
+    const newRefreshToken = new refreshToken({
+      token: tokenUser,
+      user: user,
+    });
+
+    const newToken = await newRefreshToken.save();
+    return res.status(200).json({
+      status: "Success",
+      data: newToken,
+    });
+  } catch (error) {
+    return res.status(400).json({ error: error });
+  }
 };
