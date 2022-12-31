@@ -1,5 +1,5 @@
 import Router from "express";
-import loginGateway from "../controllers/auth.js";
+import {loginGateway, refreshingToken} from "../controllers/auth.js";
 import verifyToken from "../middleware/index.js";
 import getUsers from "../controllers/user.js";
 
@@ -11,6 +11,7 @@ const router = Router({
 
 router.post("/login", loginGateway);
 router.get("/users", verifyToken, getUsers);
+router.post('/refresh-token', refreshingToken)
 // router.post("/users", verifyToken, loginGateway)
 
 export default router;

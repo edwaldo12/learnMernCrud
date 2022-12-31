@@ -2,6 +2,7 @@ import UserModel from "../models/model.js";
 import bcrypt from "bcrypt";
 
 export const addUser = async (req, res) => {
+  console.log(req.body);
   try {
     const { nama, role, username, password, tanggal_lahir, email } = req.body;
     if (!nama || !role || !username || !password || !tanggal_lahir || !email) {
@@ -38,6 +39,7 @@ export const addUser = async (req, res) => {
 export const getUsers = async (req, res) => {
   try {
     const users = await UserModel.find();
+    console.log(users);
     res.status(200).json({
       status: 200,
       users,
@@ -144,5 +146,3 @@ export const deleteUser = async (req, res) => {
     });
   }
 };
-
-

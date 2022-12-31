@@ -1,5 +1,3 @@
-"use strict";
-
 import UserModel from "../models/model.js";
 import refreshToken from "../models/refresh_token.js";
 import bcrypt from "bcrypt";
@@ -22,6 +20,7 @@ export const loginUser = async (req, res) => {
   const refreshToken = jwt.sign({ userLogin }, keyRefresh, {
     expiresIn: "1d",
   });
+
   bcrypt.compare(password, userLogin.password).then(() => {
     res.cookie("refresh-token", refreshToken, {
       httpOnly: true,
@@ -32,6 +31,7 @@ export const loginUser = async (req, res) => {
     res.status(200).json({
       status: 200,
       userLogin: userLogin,
+      refreshToken: refreshToken,
     });
   });
   return;
@@ -55,12 +55,11 @@ export const refreshedToken = async (req, res) => {
     });
 
     const newToken = await newRefreshToken.save();
-    console.log(newToken.token);
     return res.status(200).json({
       status: "Success",
       data: {
         token: newToken.token,
-        user: newToken.user
+        user: newToken.user,
       },
     });
   } catch (error) {

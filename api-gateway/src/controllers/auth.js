@@ -2,13 +2,12 @@ import apiAdapter from "../helper/apiAdapter.js";
 import jwt from "jsonwebtoken";
 import { authServiceUrl } from "../config/urlApi.js";
 import { keyJWT, keyRefresh } from "../config/auth.js";
+import {parse, stringify, toJSON, fromJSON} from 'flatted';
 
-export default async function loginGateway(req, res) {
+export async function loginGateway(req, res) {
   try {
     const api = apiAdapter(authServiceUrl);
     let user = await api.post("/api/login-user", req.body);
-    // console.log(user.data.userLogin._id);
-    // return res.json({ h: "h" });
     let data = user.data.userLogin;
 
     let token = jwt.sign(data, keyJWT, {
@@ -18,19 +17,10 @@ export default async function loginGateway(req, res) {
       expiresIn: "1h",
     });
 
-    await api.post(
-      "/api/create-token",
-      {
-        refreshToken: refreshToken,
-        _id: data._id,
-      },
-      {
-        headers: {
-          "x-access-token": token,
-          "set-cookie": refreshToken,
-        },
-      }
-    );
+    await api.post("/api/create-token", {
+      refresh_token: refreshToken,
+      _id: data._id,
+    });
     return res.status(200).json({
       status: "success",
       data: {
@@ -39,6 +29,21 @@ export default async function loginGateway(req, res) {
       },
     });
   } catch (error) {
+    return res.status(400).json({ error });
+  }
+}
+
+export async function refreshingToken(req, res) {
+  try {
+    const api = apiAdapter(authServiceUrl);
+    console.log(req.body);
+    let user = await api.post("/api/create-token", {
+      _id: req.body._id,
+      refresh_token: req.body.refresh_token,
+    });
+    return res.status(200).json({ refreshToken: user });
+  } catch (error) {
+    console.log(`error msg ${error}`);
     return res.status(400).json({ error });
   }
 }
