@@ -122,8 +122,8 @@ export const deleteUser = async (req, res) => {
       return;
     }
 
-    const deletedUser = UserModel.findByIdAndDelete(id);
-    const allUserAfterDelete = UserModel.find();
+    const deletedUser = await UserModel.findByIdAndDelete(id);
+    const allUserAfterDelete = await UserModel.find();
 
     if (!deletedUser) {
       res.status(501).json({

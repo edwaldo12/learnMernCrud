@@ -68,9 +68,8 @@ export const refreshedToken = async (req, res) => {
 };
 
 export const getToken = async (req, res) => {
-  const refresh_token = req.query.refresh_token;
-  console.log('refreshers'+ refresh_token)
-  const token = await refreshToken.findOne({token: refresh_token } );
+  const refresh_token = req.body.refresh_token;
+  const token = await refreshToken.findOne({ token: refresh_token });
 
   if (!token) {
     return res.status(400).json({

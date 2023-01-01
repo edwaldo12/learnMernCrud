@@ -54,22 +54,24 @@ export async function getTokenFromRefreshedToken(req, res) {
     const api = apiAdapter(authServiceUrl);
     let tokenFromBody = req.body.refresh_token;
 
-    await api.get("/api/get-token", {
-      params: {
-        refresh_token: tokenFromBody,
-      },
+    let newToken = await api.post("/api/get-token", {
+      _id: req.body._id,
+      refresh_token: tokenFromBody,
     });
+    newToken = newToken.data.token.token;
 
-    let tokenNew = jwt.verify(tokenFromBody, keyRefresh, (err, decoded) => {
+    let tokenNew = jwt.verify(newToken, keyRefresh, (err, decoded) => {
       if (err) {
-        console.log(err);
         return res.status(404).json({
           Status: "you aren't authorized!",
         });
       }
       return decoded;
     });
-    console.log(tokenNew);
+
+    delete tokenNew.exp;
+    delete tokenNew.iat;
+
     const token = jwt.sign(tokenNew, keyJWT, { expiresIn: "2h" });
     return res.status(200).json({
       token,

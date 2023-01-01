@@ -13,5 +13,5 @@ const jsonParser = json();
 
 router.post("/api/login-user", jsonParser, loginUser);
 router.post("/api/create-token", jsonParser, refreshedToken);
-router.get("/api/get-token", jsonParser, getToken);
+router.post("/api/get-token", jsonParser, getToken);
 export default router;

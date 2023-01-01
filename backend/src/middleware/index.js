@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { keyJWT, keyRefresh } from "../config/auth.js";
+import { keyJWT } from "../config/auth.js";
 
 export default async function verifyToken(req, res, next) {
   let tokenUser = req.headers["x-access-token"];
