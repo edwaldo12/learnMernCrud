@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 import { keyJWT } from "../config/auth.js";
 
-export default async function verifyToken(req, res, next){
+export default async function verifyToken(req, res, next) {
   let tokenUser = req.headers["x-access-token"];
-  let cookieUser = req.headers["set-cookie"];
-  let getRefreshToken = cookieUser[0].split(";")[0].split("=")[1];
+  // let cookieUser = req.headers["set-cookie"];
+  // let getRefreshToken = cookieUser[0].split(";")[0].split("=")[1];
 
   if (!tokenUser) {
     return res.status(403).json({
@@ -18,8 +18,9 @@ export default async function verifyToken(req, res, next){
         Message: "invalid token!",
       });
     }
+    return decoded;
   });
-  let role = decoded.userLogin.role;
+  let role = decoded.role;
 
   if (role != "Admin") {
     return res.status(403).json({
@@ -28,4 +29,4 @@ export default async function verifyToken(req, res, next){
   }
 
   next();
-};
+}

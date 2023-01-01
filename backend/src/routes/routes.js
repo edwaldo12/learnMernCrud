@@ -13,11 +13,11 @@ const router = Router({
   caseSensitive: true,
 });
 
-router.post("/api/add-user", verifyToken, addUser);
+router.post("/api/add-user", addUser);
 router.get("/api/get-users", getUsers);
 router.get("/api/get-user/:id", getUser);
-router.put("/api/update-user/:id", verifyToken, updateUser);
-router.delete("/api/delete-user/:id", verifyToken, deleteUser);
+router.post("/api/update-user/:id", updateUser);
+router.delete("/api/delete-user/:id", deleteUser);
 
 //user
 router.post("/api/login-user", loginUser);
