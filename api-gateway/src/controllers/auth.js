@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { authServiceUrl } from "../config/urlApi.js";
 import { keyJWT, keyRefresh } from "../config/auth.js";
 
-export async function loginGateway(req, res) {
+export const loginGateway = async (req, res) => {
   const api = apiAdapter(authServiceUrl);
   let user = await api.post("/api/login-user", req.body);
   let data = user.data.userLogin;
@@ -26,30 +26,28 @@ export async function loginGateway(req, res) {
       refreshToken: refreshToken,
     },
   });
-}
+};
 
-export function refreshingToken(req, res) {
+export const refreshingToken = async (req, res) => {
   try {
     const api = apiAdapter(authServiceUrl);
-    api
+    await api
       .post("/api/create-token", {
         _id: req.body._id,
         refresh_token: req.body.refresh_token,
       })
       .then((success) => {
-        console.log(success);
         return res.status(200).json({ refreshToken: success.data.data.token });
       })
       .catch((error) => {
         console.log(error);
       });
   } catch (error) {
-    console.log(`error msg ${error}`);
     return res.status(400).json({ error });
   }
-}
+};
 
-export async function getTokenFromRefreshedToken(req, res) {
+export const getTokenFromRefreshedToken = async (req, res) => {
   try {
     const api = apiAdapter(authServiceUrl);
     let tokenFromBody = req.body.refresh_token;
@@ -79,4 +77,4 @@ export async function getTokenFromRefreshedToken(req, res) {
   } catch (error) {
     console.log(error);
   }
-}
+};

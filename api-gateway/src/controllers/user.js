@@ -2,9 +2,9 @@
 import apiAdapter from "../helper/apiAdapter.js";
 import { userServiceUrl } from "../config/urlApi.js";
 
-export function getUsers(req, res) {
+export const getUsers = async (req, res) => {
   const apiUser = apiAdapter(userServiceUrl);
-  apiUser
+  await apiUser
     .get("/api/get-users")
     .then((success) => {
       let users = success.data.users;
@@ -15,12 +15,12 @@ export function getUsers(req, res) {
     .catch((error) => {
       console.log(error);
     });
-}
+};
 
-export function getUser(req, res) {
+export const getUser = async (req, res) => {
   let id = req.params.id;
   const apiUser = apiAdapter(userServiceUrl);
-  apiUser
+  await apiUser
     .get(`/api/get-user/${id}`)
     .then((success) => {
       return res.status(200).json({
@@ -30,11 +30,11 @@ export function getUser(req, res) {
     .catch((error) => {
       console.log(error);
     });
-}
+};
 
-export function createUsers(req, res) {
+export const createUsers = async (req, res) => {
   const apiUser = apiAdapter(userServiceUrl);
-  apiUser
+  await apiUser
     .post("/api/add-user", req.body)
     .then((success) => {
       return res.status(200).json({
@@ -44,12 +44,12 @@ export function createUsers(req, res) {
     .catch((error) => {
       console.log(error);
     });
-}
+};
 
-export function updateUser(req, res) {
+export const updateUser = async (req, res) => {
   const apiUser = apiAdapter(userServiceUrl);
   const id = req.params.id;
-  apiUser
+  await apiUser
     .put(`/api/update-user/${id}`, req.body)
     .then((success) => {
       console.log(success);
@@ -62,12 +62,12 @@ export function updateUser(req, res) {
         error,
       });
     });
-}
+};
 
-export function deleteUser(req, res) {
+export const deleteUser = async (req, res) => {
   const apiUser = apiAdapter(userServiceUrl);
   const id = req.params.id;
-  apiUser
+  await apiUser 
     .delete(`/api/delete-user/${id}`)
     .then((success) => {
       return res.status(200).json({
@@ -77,4 +77,4 @@ export function deleteUser(req, res) {
     .catch((error) => {
       console.log(error);
     });
-}
+};
