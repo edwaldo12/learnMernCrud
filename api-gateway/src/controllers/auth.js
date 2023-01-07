@@ -5,47 +5,56 @@ import { keyJWT, keyRefresh } from "../config/auth.js";
 
 export const loginGateway = async (req, res) => {
   const api = apiAdapter(authServiceUrl);
-  let user = await api.post("/api/login-user", req.body);
-  let data = user.data.userLogin;
-
-  let token = jwt.sign(data, keyJWT, {
-    expiresIn: "30m",
-  });
-  let refreshToken = jwt.sign(data, keyRefresh, {
-    expiresIn: "1h",
-  });
-
-  await api.post("/api/create-token", {
-    refresh_token: refreshToken,
-    _id: data._id,
-  });
-  return res.status(200).json({
-    status: "success",
-    data: {
-      token,
-      refreshToken: refreshToken,
-    },
-  });
-};
-
-export const refreshingToken = async (req, res) => {
   try {
-    const api = apiAdapter(authServiceUrl);
-    await api
-      .post("/api/create-token", {
-        _id: req.body._id,
-        refresh_token: req.body.refresh_token,
-      })
-      .then((success) => {
-        return res.status(200).json({ refreshToken: success.data.data.token });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    let user = await api.post("/api/login-user", req.body);
+    let data = user.data.userLogin;
+
+    let token = jwt.sign(data, keyJWT, {
+      expiresIn: "30m",
+    });
+    let refreshToken = jwt.sign(data, keyRefresh, {
+      expiresIn: "1h",
+    });
+
+    await api.post("/api/create-token", {
+      _id: data._id,
+      refresh_token: refreshToken,
+    });
+    
+    return res.status(200).json({
+      status: "success",
+      data: {
+        token,
+        refreshToken,
+      },
+    });
   } catch (error) {
-    return res.status(400).json({ error });
+    return res.status(401).json({
+      Message: "Wrong username or password!",
+    });
   }
 };
+
+// export const refreshingToken = async (req, res) => {
+//   try {
+//     const api = apiAdapter(authServiceUrl);
+//     await api
+//       .post("/api/create-token", {
+//         _id: req.body._id,
+//         refresh_token: req.body.refresh_token,
+//       })
+//       .then((success) => {
+//         return res.status(200).json({ refreshToken: success.data.data.token });
+//       })
+//       .catch((error) => {
+//         return res
+//           .status(400)
+//           .json({ Message: "Your id or refresh token is wrong!" });
+//       });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 export const getTokenFromRefreshedToken = async (req, res) => {
   try {
@@ -53,7 +62,6 @@ export const getTokenFromRefreshedToken = async (req, res) => {
     let tokenFromBody = req.body.refresh_token;
 
     let newToken = await api.post("/api/get-token", {
-      _id: req.body._id,
       refresh_token: tokenFromBody,
     });
     newToken = newToken.data.token.token;

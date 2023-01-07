@@ -2,7 +2,7 @@ import Router from "express";
 import {
   getTokenFromRefreshedToken,
   loginGateway,
-  refreshingToken,
+  // refreshingToken,
 } from "../controllers/auth.js";
 import verifyToken from "../middleware/index.js";
 import {
@@ -19,7 +19,7 @@ const router = Router({
 
 //Auth
 router.post("/login", loginGateway);
-router.post("/refresh-token", refreshingToken);
+// router.post("/refresh-token", refreshingToken);
 router.post("/generate-new-token", getTokenFromRefreshedToken);
 
 //Backend

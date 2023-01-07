@@ -3,8 +3,6 @@ import { keyJWT } from "../config/auth.js";
 
 export default async function verifyToken(req, res, next) {
   let tokenUser = req.headers["x-access-token"];
-  // let cookieUser = req.headers["set-cookie"];
-  // let getRefreshToken = cookieUser[0].split(";")[0].split("=")[1];
 
   if (!tokenUser) {
     return res.status(403).json({

@@ -3,6 +3,6 @@ import axios from "axios";
 export default function apiAdapter(baseUrl) {
   return axios.create({
     baseURL: baseUrl,
-    timeout: 10000,
+    timeout: 5000,
   });
 }
