@@ -1,11 +1,11 @@
-import * as React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import "./assets/styles/index.css";
 
-//Container
-import Container from '@mui/material/Container';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <Container maxWidth="sm"></Container>
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
 );
