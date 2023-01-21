@@ -3,9 +3,9 @@ import Table from "./components/Table/Table";
 
 const App = () => {
   return (
-      <Container>
-        <Table></Table>
-      </Container>
+    <Container>
+      <Table></Table>
+    </Container>
   );
 };
 
