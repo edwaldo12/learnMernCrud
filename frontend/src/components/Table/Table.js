@@ -11,8 +11,8 @@ const Table = () => {
 
   return (
     <div className="grid grid-cols-1 place-content-center min-h-screen">
+    <Form props={showForm}></Form>
       <div>
-        <Form props={showForm}></Form>
         <table className="border-separate border border-slate-600 mx-auto">
           <thead>
             <tr>
