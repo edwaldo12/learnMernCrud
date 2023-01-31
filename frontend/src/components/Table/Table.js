@@ -1,45 +1,36 @@
 import Button from "../Button/Button";
-import { useState } from "react";
-import Form from "../Form/Form.js";
-
-const Table = () => {
-  const [showForm, setshowForm] = useState(false);
-
-  const onShowFormHandler = () => {
-    setshowForm(!showForm);
-  };
-
+const Table = ({ data }) => {
   return (
-    <div className="grid grid-cols-1 place-content-center min-h-screen">
-    <Form props={showForm}></Form>
-      <div>
-        <table className="border-separate border border-slate-600 mx-auto">
-          <thead>
+    <div className="bg-white shadow-md rounded px-8 py-6">
+      <table className="border border-slate-300 w-full">
+        <thead>
+          <tr>
+            <th className="p-2 border border-slate-300">Nama</th>
+            <th className="p-2 border border-slate-300">Username</th>
+            <th className="p-2 border border-slate-300">Tanggal Lahir</th>
+            <th className="p-2 border border-slate-300">Role</th>
+            <th className="p-2 border border-slate-300">Email</th>
+            <th className="p-2 border border-slate-300">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((user) => (
             <tr>
-              <th className="border border-slate-600">Nama</th>
-              <th className="border border-slate-600">Username</th>
-              <th className="border border-slate-600">Tanggal Lahir</th>
-              <th className="border border-slate-600">Role</th>
-              <th className="border border-slate-600">Email</th>
-              <th className="border border-slate-600">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-slate-600">Indiana</td>
-              <td className="border border-slate-600">Indianapolis</td>
-              <td className="border border-slate-600">Weronpoolis</td>
-              <td className="border border-slate-600">Indianpolos</td>
-              <td className="border border-slate-600">Polosi</td>
-              <td className="border border-slate-600">
-                <Button buttonName={"Add"} handler={onShowFormHandler}></Button>
+              <td className="p-2 border border-slate-300">{user.name}</td>
+              <td className="p-2 border border-slate-300">{user.username}</td>
+              <td className="p-2 border border-slate-300">
+                {user.tanggal_lahir}
+              </td>
+              <td className="p-2 border border-slate-300">{user.role}</td>
+              <td className="p-2 border border-slate-300">{user.email}</td>
+              <td className="p-2 border border-slate-300">
                 <Button buttonName={"Edit"}></Button>
                 <Button buttonName={"Delete"}></Button>
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
