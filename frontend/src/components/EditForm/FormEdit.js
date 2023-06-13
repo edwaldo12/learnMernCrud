@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { postUser } from "../../api/createUser/index";
+import { useState, useEffect } from "react";
+import { updateUser } from "../../api/updateUser/index";
+import { getUser } from "../../api/getUser/index";
 
-const Form = ({ setshowForm, showForm, users, setUsers }) => {
+const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -9,7 +10,22 @@ const Form = ({ setshowForm, showForm, users, setUsers }) => {
   const [tanggalLahir, setTanggalLahir] = useState("");
   const [email, setEmail] = useState("");
 
-  const submitForm = async () => {
+  useEffect(() => {
+    if (saveId) {
+      const userFetched = getUser(saveId);
+      userFetched.then((user) => {
+        setName(user.data.user.nama);
+        setUsername(user.data.user.username);
+        setRole(user.data.user.role);
+        setTanggalLahir(user.data.user.tanggal_lahir);
+        setEmail(user.data.user.email);
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+  }, [saveId]);
+
+  const updateForm = async () => {
     try {
       let objUser = {
         nama: name,
@@ -19,16 +35,15 @@ const Form = ({ setshowForm, showForm, users, setUsers }) => {
         tanggal_lahir: tanggalLahir,
         email: email
       };
-      await postUser(objUser);
-      setshowForm(!showForm); 
-      // setUsers(users.push(objUser));
-      alert('Add User Success');
+      setshowFormEdit(!showFormEdit);
+      await updateUser(saveId, objUser);
+      alert('Update User Success');
     } catch (error) {
       console.log("Something's Wrong :", error.message);
     }
   }
 
-  if (showForm) {
+  if (showFormEdit) {
     return (
       <div className="w-full">
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -81,7 +96,6 @@ const Form = ({ setshowForm, showForm, users, setUsers }) => {
                 id="password"
                 type="password"
                 placeholder="Password"
-                value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 name="password"
               />
@@ -93,7 +107,7 @@ const Form = ({ setshowForm, showForm, users, setUsers }) => {
               >
                 Role
               </label>
-              <select value={role} onChange={(e) => setRole(e.target.value)} id="role" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+              <select onChange={(e) => setRole(e.target.value)} id="role" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" value={role}>
                 <option value="Admin">Admin</option>
                 <option value="User">User</option>
               </select>
@@ -113,7 +127,8 @@ const Form = ({ setshowForm, showForm, users, setUsers }) => {
                 type="email"
                 placeholder="Username"
                 name="email"
-                value={email}
+                value={email
+                }
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -137,17 +152,17 @@ const Form = ({ setshowForm, showForm, users, setUsers }) => {
           </div>
           <div className="flex items-center justify-between">
             <button
-              onClick={submitForm}
+              onClick={updateForm}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
               Submit
             </button>
           </div>
-        </form>
-      </div>
+        </form >
+      </div >
     );
   }
 };
 
-export default Form;
+export default UpdateUserForm;

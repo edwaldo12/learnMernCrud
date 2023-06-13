@@ -2,34 +2,37 @@ import Container from "./components/Container/Container";
 import Table from "./components/Table/Table";
 import { useEffect, useState } from "react";
 import Form from "./components/Form/Form.js";
+import FormEdit from "./components/EditForm/FormEdit.js";
 import Button from "./components/Button/Button";
+import { getUsers } from './api/getUsers/index';
 
 const App = () => {
   const [showForm, setshowForm] = useState(false);
-
+  const [showFormEdit, setshowFormEdit] = useState(false);
   const [users, setUsers] = useState([]);
+  const [saveId, setSaveId] = useState(0);
+
   useEffect(() => {
-    let result = [
-      {
-        id: "1",
-        name: "joseph sayang",
-        username: "joseph",
-        tanggal_lahir: "2000-10-10",
-        role: "admin",
-        email: "mail.joseph_alberto@gmail.com",
-      },
-    ];
-    setUsers(result);
+    getUsers().then(users => {
+      setUsers(users);
+    });
   }, []);
 
   return (
     <Container>
-      <Form props={showForm}></Form>
+      <Form showForm={showForm} setshowForm={setshowForm} users={users} setUsers={setUsers}></Form>
+      <FormEdit showFormEdit={showFormEdit} setshowFormEdit={setshowFormEdit} saveId={saveId} ></FormEdit>
       <Button
         buttonName={"Add New User"}
         handler={() => setshowForm(!showForm)}
       ></Button>
-      <Table data={users} />
+      <Table
+        users={users}
+        setUsers={setUsers}
+        showFormEdit={showFormEdit}
+        setshowFormEdit={setshowFormEdit}
+        saveId={saveId}
+        setSaveId={setSaveId} />
     </Container>
   );
 };

@@ -1,7 +1,7 @@
 import axios from "axios";
 import url from "../../helper/url";
 
-export const postTodo = async (body) => {
+export const postUser = async (body) => {
   try {
     await axios({
       method: "POST",

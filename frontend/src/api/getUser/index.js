@@ -1,7 +1,7 @@
 import axios from "axios";
 import url from "../../helper/url";
 
-export const getTodo = async (id) => {
+export const getUser = async (id) => {
   try {
     const res = await axios({
       method: "GET",

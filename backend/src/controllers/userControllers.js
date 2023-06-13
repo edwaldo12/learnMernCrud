@@ -23,6 +23,7 @@ export const addUser = async (req, res) => {
     const updatedUserAfterSave = await UserModel.find();
 
     res.status(201).json({
+      status: 201,
       message: "User succesfully added!",
       addedTodo: newUser,
       updatedUserAfterSave: updatedUserAfterSave,
@@ -38,7 +39,6 @@ export const addUser = async (req, res) => {
 export const getUsers = async (req, res) => {
   try {
     const users = await UserModel.find();
-    console.log(users);
     res.status(200).json({
       status: 200,
       users,
@@ -65,10 +65,11 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const {
+    let {
       params: { id },
       body,
     } = req;
+    body = body.body;
 
     if (
       !body.nama ||

@@ -1,7 +1,7 @@
 import axios from "axios";
 import url from "../../helper/url";
 
-export const deleteTodo = async (id) => {
+export const deleteUser = async (id) => {
   try {
     axios({
       method: "DELETE",

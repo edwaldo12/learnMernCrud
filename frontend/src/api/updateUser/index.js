@@ -1,17 +1,16 @@
 import axios from "axios";
 
-import { getTodo } from "../getUser/index";
+import { getUser } from "../getUser/index";
 import url from "../../helper/url";
 
-export const updateTitle = async (id,body) => {
+export const updateUser = async (id, body) => {
   try {
-    const getUserRes = await getTodo(id);
-
+    const getUserRes = await getUser(id);
     if (getUserRes.status === 200) {
-      axios({
+      await axios({
         method: "PUT",
-        url: `${url}/api/udpate-user/${id}`,
-        data: { id: getUserRes.id, body: body },
+        url: `${url}/api/update-user/${id}`,
+        data: { id: getUserRes.data.user._id, body },
       });
     }
   } catch (error) {
