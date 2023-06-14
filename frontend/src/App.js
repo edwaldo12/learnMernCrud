@@ -16,11 +16,11 @@ const App = () => {
     getUsers().then(users => {
       setUsers(users);
     });
-  }, []);
+  }, [showForm, showFormEdit]);
 
   return (
     <Container>
-      <Form showForm={showForm} setshowForm={setshowForm} users={users} setUsers={setUsers}></Form>
+      <Form showForm={showForm} setshowForm={setshowForm}></Form>
       <FormEdit showFormEdit={showFormEdit} setshowFormEdit={setshowFormEdit} saveId={saveId} ></FormEdit>
       <Button
         buttonName={"Add New User"}

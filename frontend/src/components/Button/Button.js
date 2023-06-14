@@ -1,15 +1,14 @@
 import { deleteUser } from "../../api/deleteUser/index";
+import { getUsers } from '../../api/getUsers/index';
 
-const Button = ({ buttonName, handler, id, setUsers, users, showFormEdit, setshowFormEdit, setSaveId }) => {
+const Button = ({ buttonName, handler, id, setUsers, showFormEdit, setshowFormEdit, setSaveId }) => {
   const deleteUserAction = (id) => {
     let confirmation = window.confirm("Delete user?");
-    if (confirmation === true) {
+    if (confirmation) {
       deleteUser(id).then(() => {
-        const indexToDelete = users.findIndex(element => element._id === id)
-        if (indexToDelete >= 0) {
-          users.splice(indexToDelete, 1);
-        }
-        setUsers(users);
+        getUsers().then(users => {
+          setUsers(users);
+        });
         alert('Success Delete User');
       }).catch((error) => {
         console.log(error);

@@ -3,7 +3,7 @@ import url from "../../helper/url";
 
 export const deleteUser = async (id) => {
   try {
-    axios({
+    await axios({
       method: "DELETE",
       url: `${url}/api/delete-user/${id}`,
     });

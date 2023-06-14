@@ -129,7 +129,7 @@ export const deleteUser = async (req, res) => {
     if (!deletedUser) {
       res.status(501).json({
         status: 501,
-        errorMessage: "Remove todo failed. Not implemented .",
+        errorMessage: "Remove user failed. Not implemented .",
       });
       return;
     }

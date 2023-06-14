@@ -35,8 +35,8 @@ const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
         tanggal_lahir: tanggalLahir,
         email: email
       };
-      setshowFormEdit(!showFormEdit);
       await updateUser(saveId, objUser);
+      setshowFormEdit(!showFormEdit);
       alert('Update User Success');
     } catch (error) {
       console.log("Something's Wrong :", error.message);

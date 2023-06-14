@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { postUser } from "../../api/createUser/index";
 
-const Form = ({ setshowForm, showForm, users, setUsers }) => {
+const Form = ({ setshowForm, showForm }) => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +21,12 @@ const Form = ({ setshowForm, showForm, users, setUsers }) => {
       };
       await postUser(objUser);
       setshowForm(!showForm); 
-      // setUsers(users.push(objUser));
+      setName("");
+      setUsername("");
+      setPassword("");
+      setRole("Admin");
+      setTanggalLahir("");
+      setEmail("");
       alert('Add User Success');
     } catch (error) {
       console.log("Something's Wrong :", error.message);
