@@ -2,23 +2,29 @@ import { useState, useEffect } from "react";
 import { updateUser } from "../../api/updateUser/index";
 import { getUser } from "../../api/getUser/index";
 
-const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("Admin");
-  const [tanggalLahir, setTanggalLahir] = useState("");
-  const [email, setEmail] = useState("");
+const defaultValue = {
+  name: "",
+  username: "",
+  password: "",
+  role: "Admin",
+  tanggal_lahir: "",
+  email: "",
+};
 
+const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
+  const [userInfo, setUserInfo] = useState(defaultValue);
   useEffect(() => {
     if (saveId) {
       const userFetched = getUser(saveId);
       userFetched.then((user) => {
-        setName(user.data.user.nama);
-        setUsername(user.data.user.username);
-        setRole(user.data.user.role);
-        setTanggalLahir(user.data.user.tanggal_lahir);
-        setEmail(user.data.user.email);
+        setUserInfo({
+          ...userInfo,
+          name: user.data.user.nama,
+          username: user.data.user.username,
+          role: user.data.user.role,
+          tanggal_lahir: user.data.user.tanggal_lahir,
+          email: user.data.user.email
+        });
       }).catch((error) => {
         console.log(error);
       });
@@ -28,12 +34,12 @@ const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
   const updateForm = async () => {
     try {
       let objUser = {
-        nama: name,
-        username: username,
-        password: password,
-        role: role,
-        tanggal_lahir: tanggalLahir,
-        email: email
+        nama: userInfo.name,
+        username: userInfo.username,
+        password: userInfo.password,
+        role: userInfo.role,
+        tanggal_lahir: userInfo.tanggal_lahir,
+        email: userInfo.email
       };
       await updateUser(saveId, objUser);
       setshowFormEdit(!showFormEdit);
@@ -61,8 +67,8 @@ const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
                 type="text"
                 placeholder="Name"
                 name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={userInfo.name}
+                onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
               />
             </div>
             <div className="basis-1/2 mb-6 ml-4">
@@ -78,8 +84,8 @@ const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
                 type="text"
                 placeholder="Username"
                 name="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={userInfo.username}
+                onChange={(e) => setUserInfo({ ...userInfo, username: e.target.value })}
               />
             </div>
           </div>
@@ -96,7 +102,7 @@ const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
                 id="password"
                 type="password"
                 placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setUserInfo({ ...userInfo, password: e.target.value })}
                 name="password"
               />
             </div>
@@ -107,7 +113,7 @@ const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
               >
                 Role
               </label>
-              <select onChange={(e) => setRole(e.target.value)} id="role" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" value={role}>
+              <select onChange={(e) => setUserInfo({ ...userInfo, role: e.target.value })} id="role" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" value={userInfo.role}>
                 <option value="Admin">Admin</option>
                 <option value="User">User</option>
               </select>
@@ -127,9 +133,8 @@ const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
                 type="email"
                 placeholder="Username"
                 name="email"
-                value={email
-                }
-                onChange={(e) => setEmail(e.target.value)}
+                value={userInfo.email}
+                onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
               />
             </div>
             <div className="basis-1/2 mb-6 ml-4">
@@ -145,8 +150,8 @@ const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
                 type="date"
                 placeholder="Tanggal Lahir"
                 name="tanggal_lahir"
-                value={tanggalLahir}
-                onChange={(e) => setTanggalLahir(e.target.value)}
+                value={userInfo.tanggal_lahir}
+                onChange={(e) => setUserInfo({ ...userInfo, tanggal_lahir: e.target.value })}
               />
             </div>
           </div>
@@ -159,8 +164,8 @@ const UpdateUserForm = ({ setshowFormEdit, showFormEdit, saveId }) => {
               Submit
             </button>
           </div>
-        </form >
-      </div >
+        </form>
+      </div>
     );
   }
 };

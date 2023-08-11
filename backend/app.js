@@ -12,9 +12,9 @@ const PORT = process.env.PORT || 8080;
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cors());
-app.use(routes);
 app.use(json());
-app.use(cookieParser);
+app.use(cookieParser());
+app.use(routes);
 
 mongoose.set("strictQuery", true);
 mongoose

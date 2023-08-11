@@ -1,32 +1,35 @@
 import { useState } from "react";
 import { postUser } from "../../api/createUser/index";
 
-const Form = ({ setshowForm, showForm }) => {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("Admin");
-  const [tanggalLahir, setTanggalLahir] = useState("");
-  const [email, setEmail] = useState("");
+const defaultValue = {
+  name: "",
+  username: "",
+  password: "",
+  role: "Admin",
+  tanggal_lahir: "",
+  email: "",
+};
 
+const Form = ({ setshowForm, showForm }) => {
+  const [userInfo, setUserInfo] = useState(defaultValue);
   const submitForm = async () => {
     try {
       let objUser = {
-        nama: name,
-        username: username,
-        password: password,
-        role: role,
-        tanggal_lahir: tanggalLahir,
-        email: email
+        nama: userInfo.name,
+        username: userInfo.username,
+        password: userInfo.password,
+        role: userInfo.role,
+        tanggal_lahir: userInfo.tanggal_lahir,
+        email: userInfo.email
       };
       await postUser(objUser);
-      setshowForm(!showForm); 
-      setName("");
-      setUsername("");
-      setPassword("");
-      setRole("Admin");
-      setTanggalLahir("");
-      setEmail("");
+      setshowForm(!showForm);
+      setUserInfo({ name: "" })
+      setUserInfo({ username: "" })
+      setUserInfo({ password: "" })
+      setUserInfo({ role: "Admin" })
+      setUserInfo({ tanggal_lahir: "" })
+      setUserInfo({ email: "" })
       alert('Add User Success');
     } catch (error) {
       console.log("Something's Wrong :", error.message);
@@ -51,8 +54,8 @@ const Form = ({ setshowForm, showForm }) => {
                 type="text"
                 placeholder="Name"
                 name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={userInfo.name}
+                onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
               />
             </div>
             <div className="basis-1/2 mb-6 ml-4">
@@ -68,8 +71,8 @@ const Form = ({ setshowForm, showForm }) => {
                 type="text"
                 placeholder="Username"
                 name="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={userInfo.username}
+                onChange={(e) => setUserInfo({ ...userInfo, username: e.target.value })}
               />
             </div>
           </div>
@@ -86,8 +89,8 @@ const Form = ({ setshowForm, showForm }) => {
                 id="password"
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={userInfo.password}
+                onChange={(e) => setUserInfo({ ...userInfo, password: e.target.value })}
                 name="password"
               />
             </div>
@@ -98,7 +101,11 @@ const Form = ({ setshowForm, showForm }) => {
               >
                 Role
               </label>
-              <select value={role} onChange={(e) => setRole(e.target.value)} id="role" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+              <select
+                value={userInfo.role}
+                onChange={(e) => setUserInfo({ ...userInfo, role: e.target.value })}
+                id="role"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
                 <option value="Admin">Admin</option>
                 <option value="User">User</option>
               </select>
@@ -118,8 +125,8 @@ const Form = ({ setshowForm, showForm }) => {
                 type="email"
                 placeholder="Username"
                 name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={userInfo.email}
+                onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
               />
             </div>
             <div className="basis-1/2 mb-6 ml-4">
@@ -135,8 +142,8 @@ const Form = ({ setshowForm, showForm }) => {
                 type="date"
                 placeholder="Tanggal Lahir"
                 name="tanggal_lahir"
-                value={tanggalLahir}
-                onChange={(e) => setTanggalLahir(e.target.value)}
+                value={userInfo.tanggal_lahir}
+                onChange={(e) => setUserInfo({ ...userInfo, tanggal_lahir: e.target.value })}
               />
             </div>
           </div>

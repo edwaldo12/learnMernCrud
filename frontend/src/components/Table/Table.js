@@ -1,7 +1,7 @@
 import Button from "../Button/Button";
 const Table = ({ users, setUsers, showFormEdit, setshowFormEdit, setSaveId }) => {
   return (
-    <div className="bg-white shadow-md rounded px-8 py-6">
+    <div className="overflow-x-auto bg-white shadow-md rounded px-8 py-6">
       <table className="border border-slate-300 w-full">
         <thead>
           <tr>
