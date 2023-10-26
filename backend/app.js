@@ -18,16 +18,16 @@ app.use(routes);
 
 mongoose.set("strictQuery", true);
 mongoose
-  .connect(uri)
-  .then(() => {
-    app.listen(PORT, () => {
-      console.info(`App is listening at http://localhost:${PORT}`);
+    .connect(uri)
+    .then(() => {
+        app.listen(PORT, () => {
+            console.info(`App is listening at http://localhost:${PORT}`);
+        });
+    })
+    .catch((error) => {
+        throw error;
     });
-  })
-  .catch((error) => {
-    throw error;
-  });
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+    res.send("Hello World!");
 });
